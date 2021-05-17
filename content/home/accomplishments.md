@@ -23,13 +23,13 @@ date_format: Jan 2006
 #   Leave other parameters empty if not required.
 #   Begin multi-line descriptions with YAML's `|2-` multi-line prefix.
 item:
-- certificate_url: https://faes.org/
+- certificate_url: 'https://faes.org/'
   date_end: "2021-04-27"
   date_start: "2021-04-30"
   description: "Introduction to Deep Learning using Pytorch and Jupyter Notebooks"
-  organization: FAES @ NIH
+  organization: FAES (NIH)
   organization_url: 
-  title: BIOF050: Introduction to Deep Learning
+  title: 'BIOF050: Introduction to Deep Learning'
   url: ""
 
 
