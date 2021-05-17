@@ -1,52 +1,45 @@
 ---
-bio: My research interests include distributed robotics, mobile computing and programmable
-  matter.
+title: "Ariel I. Mundo"
 education:
   courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
+  - course: BS in Chemical Engineering
+    institution: Universidad Rafael Landivar (Guatemala)
     year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2008
-email: ""
-highlight_name: false
+email: aimundo@uark.edu
+highlight_name: no
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Research reproducibility
+- Semi-parametric Statistics
+- Cancer biology
 organizations:
-- name: Stanford University
-  url: https://www.stanford.edu/
-role: Professor of Artificial Intelligence
+- name: University of Arkansas, Fayetteville
+  url: https://muldoonlab.uark.edu/people/
+role: Graduate Research Assistant
 social:
 - icon: envelope
   icon_pack: fas
-  link: /#contact
+  link: mailto:aimundo@uark.edu
 - display:
     header: true
   icon: twitter
   icon_pack: fab
   label: Follow me on Twitter
-  link: https://twitter.com/GeorgeCushen
+  link: https://twitter.com/amundortiz
 - icon: graduation-cap
   icon_pack: fas
-  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
+  link: https://scholar.google.com/citations?user=3Ia93g4AAAAJ&hl=en&oi=ao
 - icon: github
   icon_pack: fab
-  link: https://github.com/gcushen
+  link: https://github.com/aimundo/aimundo
 - icon: linkedin
   icon_pack: fab
-  link: https://www.linkedin.com/
+  link: https://www.linkedin.com/in/ariel-mundo-16324b1a8/
+- icon: orcid
+  icon_pack: ai
+  link: https://orcid.org/0000-0002-6014-4538
 superuser: true
-title: Nelson Bighetti
+bio: My research interests include the longitudinal evolution of tumor response to treatment and statistical methods to analyze such evolution. I am also interested in research reproducibility in Biomedical Engineering.
 ---
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+I am PhD Student in the Department of Biomedical Engineering at the University of Arkansas, Fayetteville. Curiosity (and necessity) led me to take a class in the Geosciences Department to learn to use R. Little I knew that that class would change my view of Statistics and to question how data is traditionally analyzed in biomedical research. I am interested in novel approaches to analyze longitudinal data, how they can be applied in biomedical research, and the impact that research reproducibility brings on health science.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
-
-{{< icon name="download" pack="fas" >}} Download my {{< staticref "media/demo_resume.pdf" "newtab" >}}resumé{{< /staticref >}}.

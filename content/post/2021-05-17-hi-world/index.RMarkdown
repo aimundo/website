@@ -16,3 +16,6 @@ image:
   preview_only: no
 projects: []
 ---
+```{r}
+?lme
+```
