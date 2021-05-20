@@ -42,22 +42,22 @@ author:
 ---
 ```
 
-The main problem here is that when rendered, the header looks like this:
+The main problem here is that when rendered, the header looked like this:
 ![h-1](Header_1.JPG)
 
 
-While the footnote looks like this:
+While the footnote looked like this:
 ![footnote-1](footnote_1.JPG)
 
 
-Its clear that every author is being assigned a "different" institution. I was naive enough to think that Bookdown would "detect and merge" the affiliation of twor or more authors when it was the same, but that was clearly not the case. 
+Its clear that every author was being assigned a "different" institution. I was naive enough to think that Bookdown would "detect and merge" the affiliation of twor or more authors when it was the same, but that was clearly not the case. 
 
 I couldn't find a satisfactory answer to this problem in the Bookdown Cookbook or in the forums I consulted, but what I did found was that there is a $\LaTeX$ package called `authblk` that allows for better control on the author information. This search also lead me to [this](https://www.r-bloggers.com/2020/12/author-with-affiliation-in-bookdown-html-and-pdf/) post on Rbloggers with a proposed solution on how to use `authblk` in a Bookdown document. 
 
 However, the syntax offered by the post didn't work for me, and after repeatedly trying to make the YAML header to behave (YAML headers are quite temperamental and picky about indentations!) I started to think that I would probably have to submit a question about this issue in some specialized forum (which would involve creating a `reprex`, creating an account, registering, and the list goes on...).
 
 
-After reading for a while again, I discover (yes, I know this is pretty well to almost anyone, but it felt like a great discover to me, nonetheless) that more control over the creation of the document can be achieved by using a `.sty` file. In short, the `.sty` file can contain some $\LaTeX$ code that allows to customize the final document (longer explanation [here](http://dw.tug.org/pracjourn/2005-3/asknelly/nelly-sty-&-cls.pdf)). This discovery was really convenient as this approach would allow me add line numbers, which is something I also wanted to do on the document.
+After reading for a while again, I discover (yes, I know this is pretty well known to almost anyone, but it felt like a great discover to me, nonetheless) that more control over the creation of the document can be achieved by using a `.sty` file. In short, the `.sty` file can contain some $\LaTeX$ code that allows to customize the final document (longer explanation [here](http://dw.tug.org/pracjourn/2005-3/asknelly/nelly-sty-&-cls.pdf)). This discovery was really convenient as this approach would allow me add line numbers, which is something I also wanted to do on the document.
 
 So I proceeded as follows:
 
