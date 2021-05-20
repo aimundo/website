@@ -29,7 +29,7 @@ A while ago I started to work on a manuscript, and during a meeting with the co-
 
 Fast forward a couple days later and I'm starting to understand how things work on RMarkdown, and I also realize that I need to cross-reference an equation in the manuscript. A Google search indicates that to do this, I should probably use [Bookdown](https://bookdown.org/yihui/rmarkdown/). A quick glimpse on the Bookdown manual also indicates that Bookdown offers more capabilities than RMarkdown to reference equations and figures. So I start working on Bookdown. As I work on the manuscript more and more, I find that using Bookdown is substantially more beneficial to write a document than Word. Equations? Easy, and unlike the equations made in Word, here they look gorgeous, textbook-like. Citations? A small learning curve, but you understand what you are doing and control the amount of information you have for each reference. Above all, one of the major advantages is that when creating figures in R you don't have to mess with importing the figure and fighting with its placement in the document, which is always a pain in Word!
 
-However, the day comes when I have to add the author information on the manuscript (which hencefort I will call `Manuscript.Rmd`). There are three authors, two of which (including myself) are from the same academic institution. I try the option of listing the authors in the YAML header as the Bookdown manual suggests (title and author information in this case are fake):
+However, about a week ago I decided to work on some minor things, and had to add the author information on the manuscript (which hencefort I will call `Manuscript.Rmd`). There are three authors, two of which (including myself) are from the same academic institution. I try the option of listing the authors in the YAML header as the Bookdown manual suggests (title and author information in this case are fake):
 
 ```{}
 ---
@@ -43,8 +43,7 @@ author:
 ```
 
 The main problem here is that when rendered, the header looks like this:
-
-![header-1](Header_1.JPG)
+![h-1](Header_1.JPG)
 
 
 While the footnote looks like this:
@@ -96,4 +95,49 @@ output:
 ---
 
 ```
+
+Alright! And the document looked like...
+![h-2](Header_2.JPG)
+
+Huh... that was odd. It was nice to see that the document had line numbers, but you can notice that there is an additional "and" after the last author along with a superscript for the affiliation. This was the most frustrating thing, I am no $\LaTeX$ expert and I couldn't find the cause of the problem, although I suspected that there was a conflict between the Pandoc LaTeX template and what the `authblk` package was doing. For this one, I was out of ideas after several hours of trying to fix the issue and decided to submit an issue on the `Bookdown` GitHub [site](https://github.com/rstudio/bookdown). 
+
+I got a very detailed response from the `Bookdown` team the next day (yesterday). So I decided to add the explanation and the solution here before I forget. It goes like this: RMarkdown uses a Pandoc $\LaTeX$ template (which can be found [here](https://github.com/jgm/pandoc/blob/master/data/templates/default.latex))to build documents, and in that template there is an 'author' line that includes an `\and` command. In that template the field is not conditional, meaning that it will always appear even if you already have the information in a separate `.sty` or `.tex` file. Because in this case I have no 'author' information to pass to the template (as the author information is in the `.sty` file) the template author field remain blank but the `\and` will always appear.
+
+There are two solutions which the `Bookdown` team provided ([here](https://github.com/rstudio/bookdown/issues/1158)):
+
+- Use a custom LaTeX template that does not include the `\author` line.
+- Add a function in the `.Rmd` document that post-processes the $\LaTeX$ file through `bookdown.post.latex`(more information about this function [here](https://github.com/rstudio/bookdown/blob/master/R/latex.R))
+
+I tried both options. In the first case, you only need to edit the original template, save with a custom name in the same directory where your `.Rmd` file is and call it in the YAML header like this:
+
+```{}
+bookdown::pdf_document2:
+  template: my-template.tex
+```
+
+However, it seems that maintaining a custom template can be tricky if there are updates over time. So I also tried the second option, which is the function provided by the `Bookdown` team and that you have to place in a `setup` chunk at the beginning of the document. It can also be placed in the chunk where the `knitr::opts` line would be. The function is:
+
+```{}
+remove_author <- function(x) {
+  # identify empty author line
+  i <- grep("^\\\\author\\{\\}$", x)
+  # be sure it is the one pandoc inserts
+  if(length(i) != 0 && grepl('^\\\\date\\{', x[i+1])) x <- x[-i]
+  x
+}
+options(bookdown.post.latex = remove_author)
+
+```
+
+In this way, the default template is called, but the function will remove the `author` line. I found that this worked nicely, with the advantage of not having to worry about issues with a custom template. After compiling the PDF document using the function the final result looks like this:
+![h-3](Header_3.JPG)
+
+Which is what I wanted. Quite a journey to have this resolved, but I learned a bunch of stuff along the way! I hope this post helps anyone going through the same issues.
+
+A couple of final thoughts:
+
+- $LaTeX$ is challenging but there's whole world of things to experiment with! 
+- YAML headers are temperamental. Sometimes it's good to use a [YAML validator](https://yamlvalidator.com/) to check it everything works. With more and more options and custom things in it, there is more chance that an indentation is not right and you can spend hours trying to find the problem (trust me, I've been there)
+- Also, I am a convert. Only `Bookdown` to write documents from now on!
+
 
