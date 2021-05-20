@@ -41,5 +41,4 @@ superuser: true
 bio: My research interests include the longitudinal evolution of tumor response to treatment and statistical methods to analyze such evolution. I am also interested in research reproducibility in Biomedical Engineering.
 ---
 
-I am PhD Student in the Department of Biomedical Engineering at the University of Arkansas, Fayetteville. Curiosity (and necessity) led me to take a class in the Geosciences Department to learn to use R. Little I knew that that class would change my view of Statistics and to question how data is traditionally analyzed in biomedical research. I am interested in novel approaches to analyze longitudinal data, how they can be applied in biomedical research, and the impact that research reproducibility brings on health science.
-
+I am a PhD Student in the Department of Biomedical Engineering at the University of Arkansas, Fayetteville. Curiosity (and necessity) led me to take a class in the Geosciences Department to learn to use R. Little I knew that that class would change my view of Statistics and to question how data is traditionally analyzed in biomedical research. I am interested in novel approaches to analyze longitudinal data, and I try to make research reproducibility a core component of my work.

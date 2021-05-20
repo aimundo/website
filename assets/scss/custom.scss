@@ -1,6 +1,24 @@
 /* Whole document: */
 
 body {
-  margin-top: 100px !important;
   color: #172A3A;
+}
+
+
+h1, h2, h3 {
+	font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #3d405b;
+}
+
+/*from https://github.com/rbind/apreshill/blob/master/assets/scss/custom.scss
+
+/* --------Blog posts--------- */
+/* Headers within blogs */
+
+.article-style h1:not(:first-child),
+.article-style h2:not(:first-child),
+.article-style h3:not(:first-child) {
+  padding-top: 2em;
+  padding-bottom: 1em;
 }
