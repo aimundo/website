@@ -9,8 +9,8 @@ categories:
 tags:
   - bookdown
   - LaTeX
-subtitle: ''
-summary: ''
+subtitle: 'A quest to add multiple authors to a Bookdown document'
+summary: 'You are working on a manuscript using Bookdown and need to add author infomration. How do you do it without using the predefined method?'
 authors: []
 lastmod: '2021-05-19T22:06:58-05:00'
 featured: no
@@ -21,12 +21,15 @@ image:
 projects: []
 ---
 
+Disclaimer: I am writing this Blog in hopes that what I've learned helps someone else, but I also do it as a cathartic component of the learning process. So dear reader, please bear with me while I narrate my journey...
+
 # "Why don't you try RMarkdown?" and moving to Bookdown
-A while ago I started to work on a manuscript and in a meeting with one of the co-authors he said "Why don't you try RMarkdown to write this project?". Until that moment, I had only used Word to write scientific documents, and a quick look on the Internet confirmed my initial suspicion that using RMarkdown was a complete change from using Word. Nonetheless, I also had a feeling that learning to do things in RMarkdown _had_ to be beneficial, so I decided that it was worth to give it a shot. If I didn't like how things were going after a week, I would go back to Word. 
 
-Fast forward a couple days later and I realize that I need to cross-reference an equation in the manuscript. A Google search indicates that to do this, I should probably use [Bookdown](https://bookdown.org/yihui/rmarkdown/). A quick glimpse on the Bookdown manual also indicates that Bookdown offers more capabilities than RMarkdown to reference equation and figures. As I work on the manuscript I find that using Bookdown is way more easy that doing things in Word. Equations? Easy, and unlike the equations made in Word, here they look gorgeous, textbook-like. Citations? A small learning curve, but you know what you are doing and you control the amount of information you have for each reference. The list of benefits goes on and on.
+A while ago I started to work on a manuscript, and during a meeting with the co-authors one of them said "Why don't you try RMarkdown to write this project?". Until that moment, I had only used Word to write scientific documents, and a quick look on the Internet confirmed my initial suspicion that using RMarkdown was a complete different experience than using Word. Nonetheless, I also had a feeling that learning to do things in RMarkdown _had_ to be beneficial, so I decided that it was worth to give it a shot. If I didn't like how things were going after a week, I would go back to Word. 
 
-However, the day comes when I have to add the author information on the manuscript (which hencefort I will call `Manuscript.Rmd`). There are three authors, two of which (including myself) are from the same academic institution. I try the option of listing the authors in the YAML header like this (title and author information in this case are fake):
+Fast forward a couple days later and I'm starting to understand how things work on RMarkdown, and I also realize that I need to cross-reference an equation in the manuscript. A Google search indicates that to do this, I should probably use [Bookdown](https://bookdown.org/yihui/rmarkdown/). A quick glimpse on the Bookdown manual also indicates that Bookdown offers more capabilities than RMarkdown to reference equations and figures. So I start working on Bookdown. As I work on the manuscript more and more, I find that using Bookdown is substantially more beneficial to write a document than Word. Equations? Easy, and unlike the equations made in Word, here they look gorgeous, textbook-like. Citations? A small learning curve, but you understand what you are doing and control the amount of information you have for each reference. Above all, one of the major advantages is that when creating figures in R you don't have to mess with importing the figure and fighting with its placement in the document, which is always a pain in Word!
+
+However, the day comes when I have to add the author information on the manuscript (which hencefort I will call `Manuscript.Rmd`). There are three authors, two of which (including myself) are from the same academic institution. I try the option of listing the authors in the YAML header as the Bookdown manual suggests (title and author information in this case are fake):
 
 ```{}
 ---
@@ -43,22 +46,25 @@ The main problem here is that when rendered, the header looks like this:
 
 ![header-1](Header_1.JPG)
 
+
 While the footnote looks like this:
 ![footnote-1](footnote_1.JPG)
 
 
-Its clear that every author is being assigned a "different" institution, I think I was naive enough to think that Bookdown will "detect" that two of the authors were in the same institution, but of course, that is not the case. 
+Its clear that every author is being assigned a "different" institution. I was naive enough to think that Bookdown would "detect and merge" the affiliation of twor or more authors when it was the same, but that was clearly not the case. 
 
-I couldn't find a satisfactory answer to this problem in the Bookdown Cookbook, but by looking through the internet I find that there is a $\LaTeX$ package called `authblk` that allows for better control on the author information. This search leads me to [this](https://www.r-bloggers.com/2020/12/author-with-affiliation-in-bookdown-html-and-pdf/) post on Rbloggers with a proposed solution. However, the syntax that the post offers does not work for me, and after multiple attempts, I am starting to think that I would probably have to submit a question about this in some specialized forum (which would involve creating a `reprex`, creating an account, registering, and the list goes on...).
+I couldn't find a satisfactory answer to this problem in the Bookdown Cookbook or in the forums I consulted, but what I did found was that there is a $\LaTeX$ package called `authblk` that allows for better control on the author information. This search also lead me to [this](https://www.r-bloggers.com/2020/12/author-with-affiliation-in-bookdown-html-and-pdf/) post on Rbloggers with a proposed solution on how to use `authblk` in a Bookdown document. 
+
+However, the syntax offered by the post didn't work for me, and after repeatedly trying to make the YAML header to behave (YAML headers are quite temperamental and picky about indentations!) I started to think that I would probably have to submit a question about this issue in some specialized forum (which would involve creating a `reprex`, creating an account, registering, and the list goes on...).
 
 
-A couple more hours of reading and I discover (yes, I know this is pretty well known for some people, but it felt like a great discover to me, nonetheless) that more control over the creation of the document can be achieved by using a `.sty` file. In short, the `.sty` file can contain some $\LaTeX$ code that allows to customize the final document (longer explanation [here](http://dw.tug.org/pracjourn/2005-3/asknelly/nelly-sty-&-cls.pdf)). This is really convenient as it allows to do other things such as adding line numbers to the document.
+After reading for a while again, I discover (yes, I know this is pretty well to almost anyone, but it felt like a great discover to me, nonetheless) that more control over the creation of the document can be achieved by using a `.sty` file. In short, the `.sty` file can contain some $\LaTeX$ code that allows to customize the final document (longer explanation [here](http://dw.tug.org/pracjourn/2005-3/asknelly/nelly-sty-&-cls.pdf)). This discovery was really convenient as this approach would allow me add line numbers, which is something I also wanted to do on the document.
 
-To make the story short, I ended up doing this:
+So I proceeded as follows:
 
-- Creating a `.sty` file called "preamble" that is the same directory where `Manuscript.Rmd` 
-is.
-- In `preamble.sty` I wrote the following:
+- Creating a `.sty` file called "preamble" that was the same directory where `Manuscript.Rmd` was located.
+
+- In `preamble.sty`:
 
 ```{}
 \usepackage{lineno}
@@ -76,7 +82,7 @@ is.
 
 ```
 
-Then, in the YAML header of `Manuscript.Rmd` I added two lines to indicate that I will call `preamble.sty` when the PDF is compiled:
+Then, in the YAML header of `Manuscript.Rmd` I added two lines to indicate that $\LaTeX$ code is in `preamble.sty`. The two lines are `includes` and `in_header`:
 
 ```{}
 ---
@@ -90,3 +96,4 @@ output:
 ---
 
 ```
+
