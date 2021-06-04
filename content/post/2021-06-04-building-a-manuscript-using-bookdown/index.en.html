@@ -1,0 +1,63 @@
+---
+title: 'Building a manuscript using Bookdown'
+author: Ariel Mundo
+date: '2021-06-04'
+slug: building-a-manuscript-using-bookdown
+categories:
+  - R
+  - bookdown
+  - LaTeX
+tags:
+  - bookdown
+  - LaTeX
+subtitle: 'Lessons from experience'
+summary: ''
+authors: []
+lastmod: '2021-06-04T11:39:21-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+<script src="{{< blogdown/postref >}}index.en_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="why" class="section level2">
+<h2>Why?</h2>
+<p>This is the second post about working with <code>Bookdown</code> and my experience on the process (first post is <a href="http://aimundo.rbind.io/post/using-bookdown-different-authors-in-a-document/">here</a>). This post focuses on how I found that was easy to compartmentalize my work and some tips I learned along the way (I will probably write about some other things in the future as well).</p>
+</div>
+<div id="use-chapters" class="section level1">
+<h1>Use “chapters”</h1>
+<p>When I started working with <code>Bookdown</code> I was making a single document for my manuscript. Doing it in that way was manageable at the beginning, but as I wrote more and added more code, scrolling down started to become painful (specially after I realized one day that I was at about 1000 lines in length between code/text). I decided that I wanted to break the document in pieces, but I didn’t know how. Reading through the Web I came to realize that you can piece a <code>Bookdown</code> document using the <code>child</code> option (see <a href="https://bookdown.org/yihui/rmarkdown-cookbook/child-document.html"><strong>here</strong></a> for a thorough description). The <code>child</code> option means that you will break your document in “Chapters” but they will be knitted in a single document when you compile the PDF/HTML output. For this to work you need in the same working directory:</p>
+<ul>
+<li>A “central” document that will contain the YAML header and the instructions to call all the other documents.</li>
+<li>All your “chapters”</li>
+</ul>
+<p>The “central” document will contain all the formatting instructions (YAML header with bibliography, references styles, <span class="math inline">\(\LaTeX\)</span> options, etc) and chunks of code where you call the “chapters”. Suppose you call this “central” document <code>Main.Rmd</code>, and that you have in the same directory two “chapters”: <code>Chapter 1.Rmd</code> and <code>Chapter 2.Rmd</code>.</p>
+<p>In <code>Main.Rmd</code>, after they YAML header and the chunk where the <code>knitr</code> options are specified, you need to add the chunks that will call the chapters, like this:</p>
+<pre><code>```{r child=&#39;Chapter 1.Rmd&#39;} 
+```</code></pre>
+<pre><code>```{r child=&#39;Chapter 2.Rmd&#39;} 
+```</code></pre>
+<p>The very convenient thing about using this approach, is that you can move across the chapters and find things <em>way</em> more quickly than using a single document; you can also check bugs in your code without constantly scrolling up and down. Keep in mind that all your packages need to be loaded in <code>Main.Rmd</code>, the “chapters” do <strong>not</strong> have a YAML header or an R chunk for options, you can start them just with text. If you were to open the file for the first chapter it would look like this:</p>
+<ul>
+<li>Chapter 1.Rmd</li>
+</ul>
+<pre class="text"><code># Chapter 1: Introduction
+
+In this section we will review the current status of the field of interest.</code></pre>
+<div id="things-to-keep-in-mind" class="section level2">
+<h2>Things to keep in mind</h2>
+<p>Below are a few things that are important to keep in mind when you are working with the <code>child</code> option in <code>Bookdown</code>:</p>
+<ul>
+<li><p>The complete document should be knitted from <code>Main.Rmd</code>. I sometimes made the mistake of trying to knit from one of the “chapter” files, but it does not work because all the packages and the YAML hearder are in <code>Main.Rmd</code> so it is there where you have to knit your document.</p></li>
+<li><p>If you want to debug some code, remember to always run the chunk in <code>Main.Rmd</code> that contains the libraries and any other things you need for your document to work. Specially if you are using a global theme for colors, for example. Because if you try to debug some <code>ggplot2</code> figures in <code>Chapter 1.Rmd</code> that use the global theme, you won’t be able to do it unless those settings are loaded in the environment.</p></li>
+<li><p>Learn to use <span class="math inline">\(\LaTeX\)</span> to control the formatting of the chapters. For example, I noticed that for my manuscript some of the Figures were being pushed to the next chapter by default, when I wanted them to stay in the chapter they belonged to. Options such as <code>\FloatBarrier</code>, which is from the <span class="math inline">\(\LaTeX\)</span> package <strong>float</strong>, allows you keep the figures in the chapter where they were created, therefore avoiding any weird Figure misplacing.</p></li>
+</ul>
+<p>There are many options in <span class="math inline">\(\LaTeX\)</span> that allow you to control the formatting of your document, so learning how to use packages is quite useful.</p>
+<p>Alright, that’s it for now!</p>
+</div>
+</div>

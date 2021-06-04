@@ -5,7 +5,7 @@ education:
   - course: BS in Chemical Engineering
     institution: Universidad Rafael Landivar (Guatemala)
     year: 2009
-email: aimundo@uark.edu
+email: aimundo.ortiz@gmail.com
 highlight_name: no
 interests:
 - Research reproducibility
@@ -18,7 +18,7 @@ role: Graduate Research Assistant
 social:
 - icon: envelope
   icon_pack: fas
-  link: mailto:aimundo@uark.edu
+  link: mailto
 - display:
     header: true
   icon: twitter

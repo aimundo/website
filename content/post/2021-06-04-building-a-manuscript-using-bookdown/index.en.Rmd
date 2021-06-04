@@ -1,0 +1,75 @@
+---
+title: 'Building a manuscript using Bookdown'
+author: Ariel Mundo
+date: '2021-06-04'
+slug: building-a-manuscript-using-bookdown
+categories:
+  - R
+  - bookdown
+  - LaTeX
+tags:
+  - bookdown
+  - LaTeX
+subtitle: 'Lessons from experience'
+summary: ''
+authors: []
+lastmod: '2021-06-04T11:39:21-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+## Why?
+
+This is the second post about working with `Bookdown` and my experience on the process (first post is [**here**](http://aimundo.rbind.io/post/using-bookdown-different-authors-in-a-document/)). This post focuses on how I found that was easy to compartmentalize my work and some tips I learned along the way (I will probably write about some other things in the future as well).
+
+# Use "chapters"
+
+When I started working with `Bookdown` I was making a single document for my manuscript. Doing it in that way was manageable at the beginning, but as I wrote more and added more code, scrolling down started to become painful (specially after I realized one day that I was at about 1000 lines in length between code/text). I decided that I wanted to break the document in pieces, but I didn't know how. Reading through the Web I came to realize that you can piece a `Bookdown` document using the `child` option (see [**here**](https://bookdown.org/yihui/rmarkdown-cookbook/child-document.html) for a thorough description). The `child` option means that you will break your document in "Chapters" but they will be knitted in a single document when you compile the PDF/HTML output. For this to work you need in the same working directory:
+
+- A "central" document that will contain the YAML header and the instructions to call all the other documents.
+- All your "chapters"
+
+
+The "central" document will contain all the formatting instructions (YAML header with bibliography, references styles, $\LaTeX$ options, etc) and chunks of code where you call the "chapters". Suppose you call this "central"  document `Main.Rmd`, and that you have in the same directory two "chapters": `Chapter 1.Rmd` and `Chapter 2.Rmd`. 
+
+In `Main.Rmd`, after they YAML header and the chunk where the `knitr` options are specified, you need to add the chunks that will call the chapters, like this:
+
+````
+```{r child='Chapter 1.Rmd'} `r ''`
+```
+````
+
+````
+```{r child='Chapter 2.Rmd'} `r ''`
+```
+````
+
+The very convenient thing about using this approach, is that you can move across the chapters and find things _way_ more quickly than using a single document; you can also check bugs in your code without constantly scrolling up and down. Keep in mind that all your packages need to be loaded in `Main.Rmd`, the "chapters" do **not** have a YAML header or an R chunk for options, you can start them just with text. If you were to open the file for the first chapter it would look like this:
+
+- Chapter 1.Rmd
+
+```text
+# Chapter 1: Introduction
+
+In this section we will review the current status of the field of interest.
+```
+
+## Things to keep in mind
+
+Below are a few things that are important to keep in mind when you are working with the `child` option in `Bookdown`:
+
+- The complete document should be knitted from `Main.Rmd`. I sometimes made the mistake of trying to knit from one of the "chapter" files, but it does not work because all the packages and the YAML hearder are in `Main.Rmd` so it is there where you have to knit your document.
+
+- If you want to debug some code, remember to always run the chunk in `Main.Rmd` that contains the libraries and any other things you need for your document to work. Specially if you are using a global theme for colors, for example. Because if you try to debug some `ggplot2` figures in `Chapter 1.Rmd` that use the global theme, you won't be able to do it unless those settings are loaded in the environment. 
+
+- Learn to use $\LaTeX$ to control the formatting of the chapters. For example, I noticed that for my manuscript some of the Figures were being pushed to the next chapter by default, when I wanted them to stay in the chapter they belonged to. Options such as `\FloatBarrier`, which is from the $\LaTeX$ package **float**, allows you keep the figures in the chapter where they were created, therefore avoiding any weird Figure misplacing. 
+
+There are many options in $\LaTeX$ that allow you to control the formatting of your document, so learning how to use packages is quite useful.
+
+Alright, that's it for now!
+
+
