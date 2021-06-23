@@ -13,4 +13,4 @@ weight: 30
 subtitle: Resume
 
 ---
-You can see my Resume [**here**](/Resume_v1.pdf)
+You can see my Resume in [**PDF**](/resume/Resume_v1.pdf)
