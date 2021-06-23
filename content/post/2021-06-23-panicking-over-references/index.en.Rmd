@@ -1,0 +1,74 @@
+---
+title: Panicking over References
+author: Ariel Mundo
+date: '2021-06-23'
+slug: panicking-over-references
+categories:
+  - LaTeX
+  - Bibtex
+tags: []
+subtitle: 'Just when you thought you were done...'
+summary: ' Submitting a TeX file, and the final proof does not show the references'
+authors: []
+lastmod: '2021-06-23T15:19:18-05:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+A couple days ago I was finishing the submission of a paper I had been working on for a while. It was quite the ride, because I used the `pdf_document2` to create the paper, but the journal I submitted it to required that I use their $\LaTeX$ template. I might write another post about the process, but in synthesis, I was able to transfer the structure of my file to a template provided by the `rticles` package. From there I generated a `Tex` file with the main manuscript and uploaded all the auxiliary files to the journal submission portal. However, when I had to check the final proof of the document I noticed that it did not contain the references, rather having just $\:^{????}$ in all the entries. 
+
+This was puzzling because I had already knitted a PDF version of the document and the references were showing up in that file. I chatted with someone from the Support Department of the journal and upon checking my files, these lines appeared in the chat window:
+
+
+_You need to manually add the references to your TeX file, remove the line where you call your 'refs.bib' file and upload the file again to the journal website. Please see this_:
+https://en.wikibooks.org/wiki/LaTeX/Manually_Managing_References
+
+
+Upon reading the first lines of the $\LaTeX$ wikibook it was apparent that this was going to be a painful task. The reason being that the format of a `.bib` file is as follows:
+
+```
+@article{lander2011,
+  doi = {10.1038/nature09792},
+  url = {https://doi.org/10.1038/nature09792},
+  year = {2011},
+  month = feb,
+  publisher = {Springer Science and Business Media {LLC}},
+  volume = {470},
+  number = {7333},
+  pages = {187--197},
+  author = {Eric S. Lander},
+  title = {Initial impact of the sequencing of the human genome},
+  journal = {Nature}
+}
+```
+
+But the actual entry in a $\LaTeX$ document depends on the Reference style used. A SAGE Vancouver entry of the same reference would look like this (and I am ignoring the formatting commands that would have to appear before):
+
+```
+\bibitem{lander2011}
+Lander, ES
+\newblock Initial impact of the sequencing of the human genome
+\newblock \emph{Nature} 2011; 470(7333):
+  187-197.
+\newblock \doi{10.1038/nature09792}.
+\newblock \urlprefix\url{https://doi.org/10.1038/nature09792}
+```
+
+Manually doing all the changes would be **rather** painful, and with a long list of references the chances of making a mistake are  huge. However, something made me think that an automated version to do this _had_ to exist (keep in mind that I am no $\LaTeX$ expert). 
+
+I suddenly remembered that a couple days before, I was messing around with [**Overleaf**](https://www.overleaf.com) (the reasons why I was doing this are not important for the purpose of this post), and that the `.bbl` file, which is basically the $\LaTeX$ formatted version of a `.bib` file is saved when a document is compiled in Overleaf, and can be downloaded. So to try this, I created a new project in Overleaf, uploaded my `.TeX`, `.csl`, `.bib` and `.bst` files and compiled the document. 
+Once it was correctly compiled and I checked that the references were on the document, I followed [**these**](https://www.overleaf.com/learn/how-to/Exporting_your_work_from_Overleaf#Downloading_with_.bbl_file.2C_for_journal_submission) instructions to donwload the auxiliary `.bbl` file, which had all the references in the appropiate $\LaTeX$ format for the journal. 
+
+Then, I basically opened the `.bbl` file in RStudio, and copied the entire content of the file at the end of my `.tex` file (the main manuscript for submission). I made sure to delete the line in the file that was not working to import the references:
+
+```
+\bibliography{refs.bib}
+```
+
+And sure enough, when I uploade this updated `.tex` file to the journal submission webiste, my references worked!
+
+There is always something new to learn with $\LaTeX$ and sometimes it can be kinda... fun.
